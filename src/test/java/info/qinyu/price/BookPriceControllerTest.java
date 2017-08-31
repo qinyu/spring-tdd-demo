@@ -1,9 +1,7 @@
 package info.qinyu.price;
 
-import info.qinyu.price.BookPriceController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,7 +30,7 @@ public class BookPriceControllerTest {
     @Test
     public void should_show_89_00_if_query_cny_price_of_kotlin_in_action() throws Exception {
         String bookName = "Kotlin实战";
-        given(bookRepository.findOne(bookName)).willReturn(new Book(bookName, 8900));
+        given(bookRepository.findByName(bookName)).willReturn(new Book(bookName, 8900));
 
         ResultActions resultActions = mockMvc.perform(
                 get("/price").param("name", bookName));

@@ -19,7 +19,7 @@ public class BookPriceController {
     @GetMapping(path = "price")
     @ResponseStatus(HttpStatus.OK)
     public BookPrice queryBookPrice(@RequestParam("name") String name) {
-        return bookPriceCalculator.calculatePrice(bookRepository.findOne(name));
+        return bookPriceCalculator.calculatePrice(bookRepository.findByName(name));
     }
 
     private BookPrice calculatePrice(Book book) {

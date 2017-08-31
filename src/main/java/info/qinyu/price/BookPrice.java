@@ -2,7 +2,6 @@ package info.qinyu.price;
 
 import javax.persistence.Entity;
 
-@Entity
 public class BookPrice {
     private String name;
     private String price;

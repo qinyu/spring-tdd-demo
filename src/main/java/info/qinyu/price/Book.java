@@ -1,9 +1,23 @@
 package info.qinyu.price;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "books")
 public class Book {
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Id
+    private long id;
 
     private String name;
     private int priceInCent;

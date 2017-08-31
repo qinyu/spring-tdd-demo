@@ -4,6 +4,6 @@ mysql:
     - "3306:3306"
   environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=music_store_test
+    - MYSQL_DATABASE=book_store_test
   volumes:
     - "./conf.d:/etc/mysql/conf.d:ro"
