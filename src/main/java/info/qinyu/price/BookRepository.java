@@ -1,4 +1,8 @@
 package info.qinyu.price;
 
-public class BookRepository {
+import org.springframework.data.repository.CrudRepository;
+
+
+public interface BookRepository extends CrudRepository<Book, Long> {
+    Book findOne(String name);
 }

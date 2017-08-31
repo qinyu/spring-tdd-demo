@@ -1,4 +1,4 @@
-package info.qinyu;
+package info.qinyu.price;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BookPriceController {
 
+    private final BookPriceCalculator bookPriceCalculator = new BookPriceCalculator();
+    BookRepository bookRepository;
+
+    public BookPriceController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
     @GetMapping(path = "price")
     @ResponseStatus(HttpStatus.OK)
-    public Price queryBookPrice(@RequestParam("name") String name) {
-        return new Price(name, "89.00");
+    public BookPrice queryBookPrice(@RequestParam("name") String name) {
+        return bookPriceCalculator.calculatePrice(bookRepository.findOne(name));
+    }
+
+    private BookPrice calculatePrice(Book book) {
+        return bookPriceCalculator.calculatePrice(book);
     }
 }
