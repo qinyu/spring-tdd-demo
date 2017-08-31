@@ -9,8 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BookPriceController {
 
-    private final BookPriceCalculator bookPriceCalculator = new BookPriceCalculator();
+    BookPriceCalculator bookPriceCalculator;
+
     BookRepository bookRepository;
+
+    CurrencyService currencyService;
+
+    public BookPriceController(BookRepository bookRepository, CurrencyService currencyService) {
+        this.bookRepository = bookRepository;
+        this.currencyService = currencyService;
+        bookPriceCalculator = new BookPriceCalculator(currencyService);
+    }
 
     public BookPriceController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -18,8 +27,10 @@ public class BookPriceController {
 
     @GetMapping(path = "price")
     @ResponseStatus(HttpStatus.OK)
-    public BookPrice queryBookPrice(@RequestParam("name") String name) {
-        return bookPriceCalculator.calculatePrice(bookRepository.findByName(name));
+    public BookPrice queryBookPrice(@RequestParam("name") String name,
+                                    @RequestParam(value = "currency", required = false) String currency) {
+
+        return bookPriceCalculator.calculatePriceInCurrency(bookRepository.findByName(name), currency);
     }
 
     private BookPrice calculatePrice(Book book) {

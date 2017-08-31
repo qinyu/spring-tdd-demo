@@ -12,6 +12,11 @@ public class BookPrice {
         this.price = price;
     }
 
+    public BookPrice(String name, String price, String currency) {
+        this.name = name;
+        this.price = price;
+        this.currency = currency;
+    }
 
     public String getName() {
         return name;
