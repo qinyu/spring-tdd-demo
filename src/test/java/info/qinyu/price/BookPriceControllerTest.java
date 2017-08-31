@@ -28,6 +28,8 @@ public class BookPriceControllerTest {
                 get("/price").param("name", "Kotlin实战"));
 
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("price", is("89.00")));
+                .andExpect(jsonPath("price", is("89.00")))
+                .andExpect(jsonPath("currency", is("cny")))
+                .andExpect(jsonPath("name", is("Kotlin实战")));
     }
 }

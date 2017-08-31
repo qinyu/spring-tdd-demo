@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 public class Price {
     private String name;
     private String price;
+    private String currency = "cny";
 
     public Price(String name, String price) {
         this.name = name;
@@ -27,5 +28,13 @@ public class Price {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
