@@ -5,8 +5,7 @@ import info.qinyu.currency.CurrencyService;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -25,7 +24,7 @@ public class BookPriceCalculatorTest {
     @Test
     public void should_directly_convert_price_queried_from_repository() throws Exception {
         BookPrice price = calculator.calculatePrice(builder.priceInCent(8800).build());
-        assertThat(price.getPrice(), is("88.00"));
+        assertThat(price.getPrice()).isEqualTo("88.00");
     }
 
 
@@ -34,7 +33,7 @@ public class BookPriceCalculatorTest {
         given(calculator.getExchangeForCurrency("usd")).willReturn(0.15168d);
 
         BookPrice price = calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "usd");
-        assertThat(price.getPrice(), is("13.50"));
+        assertThat(price.getPrice()).isEqualTo("13.50");
     }
 
 //    @Test

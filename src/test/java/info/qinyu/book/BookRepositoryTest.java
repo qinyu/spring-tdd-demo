@@ -1,7 +1,5 @@
 package info.qinyu.book;
 
-import info.qinyu.book.Book;
-import info.qinyu.book.BookRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +7,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,7 +27,7 @@ public class BookRepositoryTest {
 
         Book book = repository.findByName("Kotlin实战");
 
-        assertThat(book, is(notNullValue()));
-        assertThat(book.getPriceInCent(), is(8900));
+        assertThat(book).isNotNull();
+        assertThat(book.getPriceInCent()).isEqualTo(8900);
     }
 }
