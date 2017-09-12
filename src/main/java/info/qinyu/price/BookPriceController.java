@@ -1,5 +1,6 @@
 package info.qinyu.price;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,31 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BookPriceController {
 
-    BookPriceCalculator bookPriceCalculator;
+    private final BookPriceCalculator bookPriceCalculator;
 
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
-    CurrencyService currencyService;
-
-    public BookPriceController(BookRepository bookRepository, CurrencyService currencyService) {
+    public BookPriceController(BookRepository bookRepository, BookPriceCalculator bookPriceCalculator) {
         this.bookRepository = bookRepository;
-        this.currencyService = currencyService;
-        bookPriceCalculator = new BookPriceCalculator(currencyService);
-    }
-
-    public BookPriceController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+        this.bookPriceCalculator = bookPriceCalculator;
     }
 
     @GetMapping(path = "price")
     @ResponseStatus(HttpStatus.OK)
     public BookPrice queryBookPrice(@RequestParam("name") String name,
                                     @RequestParam(value = "currency", required = false) String currency) {
-
-        return bookPriceCalculator.calculatePriceInCurrency(bookRepository.findByName(name), currency);
+        return bookPriceCalculator.calculatePriceInCurrency(bookRepository.findByName(name), currency == null ? "cny" : currency);
     }
 
-    private BookPrice calculatePrice(Book book) {
-        return bookPriceCalculator.calculatePrice(book);
-    }
 }

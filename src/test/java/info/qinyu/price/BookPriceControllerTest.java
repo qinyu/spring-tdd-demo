@@ -5,12 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-
-import java.util.Currency;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
@@ -30,6 +28,9 @@ public class BookPriceControllerTest {
 
     @MockBean
     CurrencyService currencyService;
+
+    @SpyBean
+    BookPriceCalculator bookPriceCalculator;
 
     @Test
     public void should_show_89_00_if_query_cny_price_of_kotlin_in_action() throws Exception {

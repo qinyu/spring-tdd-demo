@@ -3,25 +3,26 @@ package info.qinyu.price;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 public class BookPriceCalculatorTest {
 
     private BookPriceCalculator calculator;
+    private Book.BookBuilder builder;
 
     @Before
     public void setUp() throws Exception {
         CurrencyService service = mock(CurrencyService.class);
         calculator = new BookPriceCalculator(service);
+        builder = Book.builder().id(0).name("A name");
     }
 
     @Test
     public void should_directly_convert_price_queried_from_repository() throws Exception {
-        BookPrice price = calculator.calculatePrice(new Book("A name", 8800));
+        BookPrice price = calculator.calculatePrice(builder.priceInCent(8800).build());
         assertThat(price.getPrice(), is("88.00"));
     }
 
@@ -30,7 +31,7 @@ public class BookPriceCalculatorTest {
     public void should_calculate_price_with_exchange_rate_provide_by_currency_service() throws Exception {
         given(calculator.getExchangeForCurrency("usd")).willReturn(0.15168d);
 
-        BookPrice price = calculator.calculatePriceInCurrency(new Book("A name", 8900), "usd");
+        BookPrice price = calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "usd");
         assertThat(price.getPrice(), is("13.50"));
     }
 

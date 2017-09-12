@@ -1,6 +1,8 @@
 package info.qinyu.price;
 
-public interface CurrencyService {
+import org.springframework.stereotype.Component;
 
+@Component
+public interface CurrencyService {
     double getExchangeForCurrency(String currency);
 }

@@ -1,25 +1,28 @@
 package info.qinyu.price;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.NotNull;
 
+@Component
 public class BookPriceCalculator {
 
-    CurrencyService currencyService;
+    private CurrencyService currencyService;
 
     public BookPriceCalculator(CurrencyService currencyService) {
         this.currencyService = currencyService;
     }
 
     BookPrice calculatePrice(Book book) {
-        String price = String.format("%.02f", book.getPriceInCent() / 100f);
-        return new BookPrice(book.getName(), price);
+        return calculatePriceInCurrency(book, "cny");
     }
 
     public BookPrice calculatePriceInCurrency(Book book, @NotNull String currency) {
         float priceInCny = book.getPriceInCent() / 100f;
         double priceD = "cny".equalsIgnoreCase(currency) ? priceInCny : priceInCny * getExchangeForCurrency(currency);
-        return new BookPrice(book.getName(), String.format("%.02f", priceD));
+        return new BookPrice(book.getName(), String.format("%.02f", priceD), currency);
     }
 
     double getExchangeForCurrency(String currency) {

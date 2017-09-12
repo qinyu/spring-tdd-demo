@@ -1,13 +1,10 @@
 package info.qinyu.price;
 
 import com.jayway.jsonpath.JsonPath;
-import com.oracle.webservices.internal.api.message.PropertySet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
-
 
 public class DefaultCurrencyService implements CurrencyService {
 

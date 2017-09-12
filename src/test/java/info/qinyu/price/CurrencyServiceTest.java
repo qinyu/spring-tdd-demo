@@ -3,12 +3,9 @@ package info.qinyu.price;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.test.web.client.response.MockRestResponseCreators;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
@@ -16,7 +13,7 @@ import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 
 public class CurrencyServiceTest {
@@ -30,7 +27,8 @@ public class CurrencyServiceTest {
         mockRestServiceServer = MockRestServiceServer.createServer(currencyService.restTemplate);
         mockRestServiceServer.expect(requestTo("https://api.fixer.io/latest?base=cny"))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK).body(readAllBytes(get("jsons", "currency.json"))));
+                .andRespond(withStatus(HttpStatus.OK)
+                        .body(readAllBytes(get("jsons", "currency.json"))));
     }
 
     @Test
