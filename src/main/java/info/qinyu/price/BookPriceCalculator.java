@@ -1,7 +1,8 @@
 package info.qinyu.price;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import info.qinyu.book.Book;
+import info.qinyu.currency.CurrencyService;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package info.qinyu.price;
+package info.qinyu.currency;
 
 import org.springframework.stereotype.Component;
 

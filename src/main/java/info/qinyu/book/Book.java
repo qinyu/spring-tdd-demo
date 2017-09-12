@@ -1,4 +1,4 @@
-package info.qinyu.price;
+package info.qinyu.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

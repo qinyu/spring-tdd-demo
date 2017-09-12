@@ -1,5 +1,7 @@
 package info.qinyu.price;
 
+import info.qinyu.book.Book;
+import info.qinyu.currency.CurrencyService;
 import org.junit.Before;
 import org.junit.Test;
 

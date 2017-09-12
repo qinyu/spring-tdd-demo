@@ -1,6 +1,7 @@
-package info.qinyu.price;
+package info.qinyu.currency;
 
 
+import info.qinyu.currency.DefaultCurrencyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;

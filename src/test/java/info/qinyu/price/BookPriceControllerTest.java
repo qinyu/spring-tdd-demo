@@ -1,5 +1,8 @@
 package info.qinyu.price;
 
+import info.qinyu.book.Book;
+import info.qinyu.book.BookRepository;
+import info.qinyu.currency.CurrencyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
