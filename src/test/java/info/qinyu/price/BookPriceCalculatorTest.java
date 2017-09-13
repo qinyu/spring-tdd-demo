@@ -6,8 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class BookPriceCalculatorTest {
 
@@ -17,7 +19,7 @@ public class BookPriceCalculatorTest {
     @Before
     public void setUp() throws Exception {
         CurrencyService service = mock(CurrencyService.class);
-        calculator = new BookPriceCalculator(service);
+        calculator = spy(new BookPriceCalculator(service));
         builder = Book.builder().id(0).name("A name");
     }
 
@@ -25,6 +27,7 @@ public class BookPriceCalculatorTest {
     public void should_directly_convert_price_queried_from_repository() throws Exception {
         BookPrice price = calculator.calculatePrice(builder.priceInCent(8800).build());
         assertThat(price.getPrice()).isEqualTo("88.00");
+        verify(calculator, never()).getExchangeForCurrency(anyString());
     }
 
 
@@ -36,17 +39,10 @@ public class BookPriceCalculatorTest {
         assertThat(price.getPrice()).isEqualTo("13.50");
     }
 
-//    @Test
-//    public void should_return_15168_when_query_exchange_rate_between_cny_and_usd() throws Exception {
-//        double exchangeForCurrency = calculator.getExchangeForCurrency("usd");
-//
-//        assertThat(exchangeForCurrency, closeTo(0.15168d, 0.000001d));
-//    }
-//
-//    @Test
-//    public void should_return_19114_when_query_exchange_rate_between_cny_and_aud() throws Exception {
-//        double exchangeForCurrency = calculator.getExchangeForCurrency("aud");
-//
-//        assertThat(exchangeForCurrency, closeTo(0.19114d, 0.000001d));
-//    }
+    @Test
+    public void should_throw_illegal_arguments_exception_if_currency_is_unknown() throws Exception {
+        given(calculator.getExchangeForCurrency("xxx")).willThrow(new IllegalArgumentException("Can't find rate for currency"));
+
+        assertThatThrownBy(() -> calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "xxx")).isInstanceOfAny(IllegalArgumentException.class);
+    }
 }

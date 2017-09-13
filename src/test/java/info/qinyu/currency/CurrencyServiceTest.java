@@ -10,6 +10,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.offset;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -43,5 +44,10 @@ public class CurrencyServiceTest {
         double exchangeForCurrency = currencyService.getExchangeForCurrency("aud");
 
         assertThat(exchangeForCurrency).isCloseTo(0.19114d, offset(0.000001d));
+    }
+
+    @Test
+    public void should_throw_illegal_param_exception_if_currency_is_unknown() throws Exception {
+        assertThatThrownBy(() -> currencyService.getExchangeForCurrency("xxx")).hasMessageStartingWith("Can't find rate for currency ");
     }
 }

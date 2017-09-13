@@ -12,9 +12,13 @@ public class DefaultCurrencyService implements CurrencyService {
     @Value("${currency.url}")
     String url;
 
-    public double getExchangeForCurrency(String currency) {
-        ResponseEntity<String> response
-                = restTemplate.getForEntity(url + "/latest?base=cny", String.class);
-        return JsonPath.read(response.getBody(), "$.rates."+currency.toUpperCase());
+    public double getExchangeForCurrency(String currency) throws IllegalArgumentException{
+        try {
+            ResponseEntity<String> response
+                    = restTemplate.getForEntity(url + "/latest?base=cny", String.class);
+            return JsonPath.read(response.getBody(), "$.rates." + currency.toUpperCase());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(String.format("Can't find rate for currency \"$s\"", currency), e);
+        }
     }
 }

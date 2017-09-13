@@ -20,10 +20,10 @@ public class BookPriceCalculator {
         return calculatePriceInCurrency(book, "cny");
     }
 
-    public BookPrice calculatePriceInCurrency(Book book, @NotNull String currency) {
+    public BookPrice calculatePriceInCurrency(Book book, @NotNull String currency) throws IllegalArgumentException {
         float priceInCny = book.getPriceInCent() / 100f;
         double priceD = "cny".equalsIgnoreCase(currency) ? priceInCny : priceInCny * getExchangeForCurrency(currency);
-        return new BookPrice(book.getName(), String.format("%.02f", priceD), currency);
+        return new BookPrice(book.getName(), String.format("%.02f", priceD), currency, null);
     }
 
     double getExchangeForCurrency(String currency) {

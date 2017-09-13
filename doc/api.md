@@ -2,7 +2,7 @@
 
 ## 默认查询人民币
 GET
-http://xxxx/price?name=Kotlin实战
+price?name=Kotlin实战
 
 ```json
 {

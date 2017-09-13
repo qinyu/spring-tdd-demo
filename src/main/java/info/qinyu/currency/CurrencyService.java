@@ -4,5 +4,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface CurrencyService {
-    double getExchangeForCurrency(String currency);
+    double getExchangeForCurrency(String currency) throws IllegalArgumentException;
 }

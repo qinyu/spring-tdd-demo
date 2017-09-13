@@ -1,5 +1,6 @@
 package info.qinyu.price;
 
+import info.qinyu.book.Book;
 import info.qinyu.book.BookRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,14 @@ public class BookPriceController {
     @ResponseStatus(HttpStatus.OK)
     public BookPrice queryBookPrice(@RequestParam("name") String name,
                                     @RequestParam(value = "currency", required = false) String currency) {
-        return bookPriceCalculator.calculatePriceInCurrency(bookRepository.findByName(name), currency == null ? "cny" : currency);
+        Book book = bookRepository.findByName(name);
+        try {
+            return bookPriceCalculator.calculatePriceInCurrency(book, currency == null ? "cny" : currency);
+        } catch (Exception e) {
+            BookPrice bookPrice = bookPriceCalculator.calculatePrice(book);
+            bookPrice.setError(e.getMessage());
+            return bookPrice;
+        }
     }
 
 }
