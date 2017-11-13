@@ -7,7 +7,15 @@ import org.springframework.web.client.RestTemplate;
 
 public class DefaultCurrencyService implements CurrencyService {
 
-    RestTemplate restTemplate = new RestTemplate();
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
+    private final RestTemplate restTemplate;
+
+    public DefaultCurrencyService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Value("${currency.url}")
     String url;

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
@@ -19,13 +20,13 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 public class CurrencyServiceTest {
 
-    DefaultCurrencyService currencyService = new DefaultCurrencyService();
+    DefaultCurrencyService currencyService = new DefaultCurrencyService(new RestTemplate());
     private MockRestServiceServer mockRestServiceServer;
 
     @Before
     public void setUp() throws Exception {
         currencyService.url = "https://api.fixer.io";
-        mockRestServiceServer = MockRestServiceServer.createServer(currencyService.restTemplate);
+        mockRestServiceServer = MockRestServiceServer.createServer(currencyService.getRestTemplate());
         mockRestServiceServer.expect(requestTo("https://api.fixer.io/latest?base=cny"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
