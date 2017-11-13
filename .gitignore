@@ -4,3 +4,6 @@ conf.d
 target
 
 *.iml
+.project
+.classpath
+.settings
