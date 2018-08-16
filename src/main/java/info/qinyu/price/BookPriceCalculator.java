@@ -22,11 +22,8 @@ public class BookPriceCalculator {
 
     public BookPrice calculatePriceInCurrency(Book book, @NotNull String currency) throws IllegalArgumentException {
         float priceInCny = book.getPriceInCent() / 100f;
-        double priceD = "cny".equalsIgnoreCase(currency) ? priceInCny : priceInCny * getExchangeForCurrency(currency);
+        double priceD = "cny".equalsIgnoreCase(currency) ? priceInCny : priceInCny * currencyService.getExchangeForCurrency(currency);
         return new BookPrice(book.getName(), String.format("%.02f", priceD), currency, null);
     }
 
-    double getExchangeForCurrency(String currency) {
-        return currencyService.getExchangeForCurrency(currency);
-    }
 }

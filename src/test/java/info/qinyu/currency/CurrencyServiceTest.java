@@ -1,24 +1,40 @@
 package info.qinyu.currency;
 
 
+import info.qinyu.book.BookRepository;
+import info.qinyu.price.BookPriceCalculator;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Paths.get;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.offset;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
-
+@RunWith(SpringRunner.class)
+//@WebMvcTest
 public class CurrencyServiceTest {
+
+    @SpyBean
+    BookPriceCalculator calculator;
+
+    @MockBean
+    CurrencyService currencyService1;
+
+    @MockBean
+    BookRepository bookRepository;
+
+
 
     DefaultCurrencyService currencyService = new DefaultCurrencyService(new RestTemplate());
     private MockRestServiceServer mockRestServiceServer;

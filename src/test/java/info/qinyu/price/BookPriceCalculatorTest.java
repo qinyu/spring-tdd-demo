@@ -15,10 +15,11 @@ public class BookPriceCalculatorTest {
 
     private BookPriceCalculator calculator;
     private Book.BookBuilder builder;
+    private CurrencyService service;
 
     @Before
     public void setUp() throws Exception {
-        CurrencyService service = mock(CurrencyService.class);
+        service = mock(CurrencyService.class);
         calculator = spy(new BookPriceCalculator(service));
         builder = Book.builder().id(0).name("A name");
     }
@@ -27,13 +28,13 @@ public class BookPriceCalculatorTest {
     public void should_directly_convert_price_queried_from_repository() throws Exception {
         BookPrice price = calculator.calculatePrice(builder.priceInCent(8800).build());
         assertThat(price.getPrice()).isEqualTo("88.00");
-        verify(calculator, never()).getExchangeForCurrency(anyString());
+        verify(service, never()).getExchangeForCurrency(anyString());
     }
 
 
     @Test
     public void should_calculate_price_with_exchange_rate_provide_by_currency_service() throws Exception {
-        given(calculator.getExchangeForCurrency("usd")).willReturn(0.15168d);
+        given(service.getExchangeForCurrency("usd")).willReturn(0.15168d);
 
         BookPrice price = calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "usd");
         assertThat(price.getPrice()).isEqualTo("13.50");
@@ -41,7 +42,7 @@ public class BookPriceCalculatorTest {
 
     @Test
     public void should_throw_illegal_arguments_exception_if_currency_is_unknown() throws Exception {
-        given(calculator.getExchangeForCurrency("xxx")).willThrow(new IllegalArgumentException("Can't find rate for currency"));
+        given(service.getExchangeForCurrency("xxx")).willThrow(new IllegalArgumentException("Can't find rate for currency"));
 
         assertThatThrownBy(() -> calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "xxx")).isInstanceOfAny(IllegalArgumentException.class);
     }
