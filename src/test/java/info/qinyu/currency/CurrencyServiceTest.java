@@ -22,19 +22,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @RunWith(SpringRunner.class)
-//@WebMvcTest
 public class CurrencyServiceTest {
-
-    @SpyBean
-    BookPriceCalculator calculator;
-
-    @MockBean
-    CurrencyService currencyService1;
-
-    @MockBean
-    BookRepository bookRepository;
-
-
 
     DefaultCurrencyService currencyService = new DefaultCurrencyService(new RestTemplate());
     private MockRestServiceServer mockRestServiceServer;
