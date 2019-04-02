@@ -1,16 +1,14 @@
 package info.qinyu.currency;
 
 
-import info.qinyu.book.BookRepository;
-import info.qinyu.price.BookPriceCalculator;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,14 +19,16 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@Tag("cover")
 public class CurrencyServiceTest {
 
     DefaultCurrencyService currencyService = new DefaultCurrencyService(new RestTemplate());
     private MockRestServiceServer mockRestServiceServer;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
+        // Given
         currencyService.url = "https://api.fixer.io";
         mockRestServiceServer = MockRestServiceServer.createServer(currencyService.getRestTemplate());
         mockRestServiceServer.expect(requestTo("https://api.fixer.io/latest?base=cny"))
@@ -46,8 +46,10 @@ public class CurrencyServiceTest {
 
     @Test
     public void should_return_19114_when_query_exchange_rate_between_cny_and_aud() throws Exception {
+        // When
         double exchangeForCurrency = currencyService.getExchangeForCurrency("aud");
 
+        // Then
         assertThat(exchangeForCurrency).isCloseTo(0.19114d, offset(0.000001d));
     }
 

@@ -25,3 +25,6 @@ price?name=Kotlin实战&currency=usd
 ```
 
 
+汇率服务：
+
+https://data.fixer.io/api/lastest?base=cny&access_key=31e82d78cb35c55127821eb54cecdcb3
