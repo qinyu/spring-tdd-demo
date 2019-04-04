@@ -1,4 +1,4 @@
-package info.qinyu.price;
+package info.qinyu.tdd;
 
 public class TDDBookPrice {
     private String name;

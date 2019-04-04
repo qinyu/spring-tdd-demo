@@ -1,12 +1,15 @@
-package info.qinyu.price;
+package info.qinyu.tdd;
 
 import info.qinyu.book.Book;
 import info.qinyu.book.BookRepository;
+import info.qinyu.tdd.TDDBookPrice;
+import info.qinyu.tdd.TDDBookPriceService;
+import info.qinyu.tdd.TDDCurrencyService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static info.qinyu.price.TDDBookPriceService.CNY;
+import static info.qinyu.tdd.TDDBookPriceService.CNY;
 import static org.mockito.Mockito.*;
 
 public class TDDBookPriceServiceTest {

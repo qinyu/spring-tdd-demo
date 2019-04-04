@@ -1,4 +1,4 @@
-package info.qinyu.price;
+package info.qinyu.tdd;
 
 import info.qinyu.book.Book;
 import info.qinyu.book.BookRepository;
