@@ -1,16 +1,12 @@
 package info.qinyu.currency;
 
 
-import info.qinyu.book.BookRepository;
-import info.qinyu.price.BookPriceCalculator;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,16 +17,16 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class CurrencyServiceTest {
 
-    DefaultCurrencyService currencyService = new DefaultCurrencyService(new RestTemplate());
-    private MockRestServiceServer mockRestServiceServer;
+    private RestTemplate restTemplate = new RestTemplate();
+    DefaultCurrencyService currencyService = new DefaultCurrencyService(restTemplate);
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         currencyService.url = "https://api.fixer.io";
-        mockRestServiceServer = MockRestServiceServer.createServer(currencyService.getRestTemplate());
+        MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(restTemplate);
         mockRestServiceServer.expect(requestTo("https://api.fixer.io/latest?base=cny"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
@@ -53,6 +49,6 @@ public class CurrencyServiceTest {
 
     @Test
     public void should_throw_illegal_param_exception_if_currency_is_unknown() throws Exception {
-        assertThatThrownBy(() -> currencyService.getExchangeForCurrency("xxx")).hasMessageStartingWith("Can't find rate for currency ");
+        assertThatThrownBy(() -> currencyService.getExchangeForCurrency("xxx")).hasMessageStartingWith("Can't find rate for currency xxx");
     }
 }

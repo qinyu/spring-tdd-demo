@@ -9,12 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "books")
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@Entity
+@Table(name = "books")
 public class Book {
 
     @Id

@@ -3,13 +3,14 @@ package info.qinyu.currency;
 import com.jayway.jsonpath.JsonPath;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-public class DefaultCurrencyService implements CurrencyService {
+import static java.lang.String.format;
 
-    public RestTemplate getRestTemplate() {
-        return restTemplate;
-    }
+@Component
+public class DefaultCurrencyService implements CurrencyService {
 
     private final RestTemplate restTemplate;
 
@@ -26,7 +27,7 @@ public class DefaultCurrencyService implements CurrencyService {
                     = restTemplate.getForEntity(url + "/latest?base=cny", String.class);
             return JsonPath.read(response.getBody(), "$.rates." + currency.toUpperCase());
         } catch (Exception e) {
-            throw new IllegalArgumentException(String.format("Can't find rate for currency \"$s\"", currency), e);
+            throw new IllegalArgumentException("Can't find rate for currency "+ currency, e);
         }
     }
 }

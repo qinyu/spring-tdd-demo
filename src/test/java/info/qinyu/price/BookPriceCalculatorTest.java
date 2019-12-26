@@ -2,8 +2,9 @@ package info.qinyu.price;
 
 import info.qinyu.book.Book;
 import info.qinyu.currency.CurrencyService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,7 +18,7 @@ public class BookPriceCalculatorTest {
     private Book.BookBuilder builder;
     private CurrencyService service;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         service = mock(CurrencyService.class);
         calculator = spy(new BookPriceCalculator(service));
@@ -30,7 +31,6 @@ public class BookPriceCalculatorTest {
         assertThat(price.getPrice()).isEqualTo("88.00");
         verify(service, never()).getExchangeForCurrency(anyString());
     }
-
 
     @Test
     public void should_calculate_price_with_exchange_rate_provide_by_currency_service() throws Exception {

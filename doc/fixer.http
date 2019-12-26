@@ -1,2 +1,4 @@
-GET
+GET http://data.fixer.io/api/latest?access_key=31e82d78cb35c55127821eb54cecdcb3
+
+###
 
