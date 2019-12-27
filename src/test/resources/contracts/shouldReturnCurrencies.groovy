@@ -1,7 +1,7 @@
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description "should return person by id=1"
+    description "should return fixer.io currencies"
 
     request {
         url "/latest?base=cny"

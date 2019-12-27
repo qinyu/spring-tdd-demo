@@ -36,7 +36,8 @@ public class BookPriceCalculatorTest {
     public void should_calculate_price_with_exchange_rate_provide_by_currency_service() throws Exception {
         given(service.getExchangeForCurrency("usd")).willReturn(0.15168d);
 
-        BookPrice price = calculator.calculatePriceInCurrency(builder.priceInCent(8900).build(), "usd");
+        BookPrice price = calculator.
+            calculatePriceInCurrency(builder.priceInCent(8900).build(), "usd");
         assertThat(price.getPrice()).isEqualTo("13.50");
     }
 
